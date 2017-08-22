@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.ReaderReservationMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.ReaderReservation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_reservation" property="dateReservation" jdbcType="TIMESTAMP" />
+    <result column="date_back" property="dateBack" jdbcType="TIMESTAMP" />
+    <result column="date_effective" property="dateEffective" jdbcType="TIMESTAMP" />
+    <result column="is_effective" property="isEffective" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="reservationANDcollectionANDbook" type="org.sysu.pojo.ReaderReservation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_reservation" property="dateReservation" jdbcType="TIMESTAMP" />
+    <result column="date_back" property="dateBack" jdbcType="TIMESTAMP" />
+    <result column="date_effective" property="dateEffective" jdbcType="TIMESTAMP" />
+    <result column="is_effective" property="isEffective" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="infoBook" javaType="org.sysu.pojo.InfoBook" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="isbn" property="isbn" jdbcType="CHAR" />
+	    <result column="title" property="title" jdbcType="VARCHAR" />
+	    <result column="author" property="author" jdbcType="VARCHAR" />
+	    <result column="translator" property="translator" jdbcType="VARCHAR" />
+	    <result column="painter" property="painter" jdbcType="VARCHAR" />
+	    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+	    <result column="publishedIn" property="publishedin" jdbcType="DATE" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="clc" property="clc" jdbcType="CHAR" />
+	    <result column="volume" property="volume" jdbcType="CHAR" />
+	    <result column="languages" property="languages" jdbcType="CHAR" />
+	    <result column="price" property="price" jdbcType="DECIMAL" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+    <association property="infoCollection" javaType="org.sysu.pojo.InfoCollection" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+	    <result column="bid" property="bid" jdbcType="BIGINT" />
+	    <result column="callno" property="callno" jdbcType="VARCHAR" />
+	    <result column="located" property="located" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="CHAR" />
+	    <result column="is_reservation" property="isReservation" jdbcType="TINYINT" />
+	    <result column="is_borrowing" property="isBorrowing" jdbcType="TINYINT" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+	    <result column="status" property="status" jdbcType="TINYINT" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bar_code, account, date_reservation, date_back, date_effective, is_effective, 
+    gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_reservation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from reader_reservation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.ReaderReservation" >
+    insert into reader_reservation (id, bar_code, account, 
+      date_reservation, date_back, date_effective, 
+      is_effective, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=BIGINT}, #{barCode,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{dateReservation,jdbcType=TIMESTAMP}, #{dateBack,jdbcType=TIMESTAMP}, #{dateEffective,jdbcType=TIMESTAMP}, 
+      #{isEffective,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.ReaderReservation" >
+    insert into reader_reservation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="barCode != null" >
+        bar_code,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="dateReservation != null" >
+        date_reservation,
+      </if>
+      <if test="dateBack != null" >
+        date_back,
+      </if>
+      <if test="dateEffective != null" >
+        date_effective,
+      </if>
+      <if test="isEffective != null" >
+        is_effective,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="barCode != null" >
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="dateReservation != null" >
+        #{dateReservation,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateBack != null" >
+        #{dateBack,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateEffective != null" >
+        #{dateEffective,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEffective != null" >
+        #{isEffective,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.ReaderReservation" >
+    update reader_reservation
+    <set >
+      <if test="barCode != null" >
+        bar_code = #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="dateReservation != null" >
+        date_reservation = #{dateReservation,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateBack != null" >
+        date_back = #{dateBack,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateEffective != null" >
+        date_effective = #{dateEffective,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEffective != null" >
+        is_effective = #{isEffective,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.ReaderReservation" >
+    update reader_reservation
+    set bar_code = #{barCode,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      date_reservation = #{dateReservation,jdbcType=TIMESTAMP},
+      date_back = #{dateBack,jdbcType=TIMESTAMP},
+      date_effective = #{dateEffective,jdbcType=TIMESTAMP},
+      is_effective = #{isEffective,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByAccountEffective1" resultMap="reservationANDcollectionANDbook" >
+    select rr.*, ic.*, ib.* from reader_reservation rr, info_collection ic, info_book ib
+    where rr.account = #{account,jdbcType=VARCHAR}
+    and rr.is_effective = 1
+    and rr.bar_code = ic.bar_code
+    and ic.bid = ib.id
+  </select>
+  <select id="selectByAccountEffective0" resultMap="reservationANDcollectionANDbook" >
+    select rr.*, ic.*, ib.* from reader_reservation rr, info_collection ic, info_book ib
+    where rr.account = #{account,jdbcType=VARCHAR}
+    and rr.is_effective = 0
+    and rr.bar_code = ic.bar_code
+    and ic.bid = ib.id
+  </select>
+  <select id="selectByBarCodeAndEffective" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_reservation
+    where bar_code = #{barCode,jdbcType=VARCHAR}
+    and is_effective = #{isEffective,jdbcType=TINYINT}
+  </select>
+  <select id="selectBySQL" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_reservation
+    <if test="key!=null and key!= '' ">
+    ${key}
+    </if>
+  </select>
+  <select id="selectByEffective" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_reservation
+    where is_effective = #{isEffective,jdbcType=TINYINT}
+  </select>
+</mapper>

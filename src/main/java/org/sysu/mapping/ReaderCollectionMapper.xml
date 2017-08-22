@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.ReaderCollectionMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.ReaderCollection" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bid" property="bid" jdbcType="BIGINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="RCAndIB" type="org.sysu.pojo.ReaderCollection" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bid" property="bid" jdbcType="BIGINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="infoBook" javaType="org.sysu.pojo.InfoBook" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="isbn" property="isbn" jdbcType="CHAR" />
+	    <result column="title" property="title" jdbcType="VARCHAR" />
+	    <result column="author" property="author" jdbcType="VARCHAR" />
+	    <result column="translator" property="translator" jdbcType="VARCHAR" />
+	    <result column="painter" property="painter" jdbcType="VARCHAR" />
+	    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+	    <result column="publishedIn" property="publishedin" jdbcType="DATE" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="clc" property="clc" jdbcType="CHAR" />
+	    <result column="volume" property="volume" jdbcType="CHAR" />
+	    <result column="languages" property="languages" jdbcType="CHAR" />
+	    <result column="price" property="price" jdbcType="DECIMAL" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, bid, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_collection
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from reader_collection
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.ReaderCollection" >
+    insert into reader_collection (id, account, bid, 
+      gmt_create, gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{bid,jdbcType=BIGINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.ReaderCollection" >
+    insert into reader_collection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bid != null" >
+        #{bid,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.ReaderCollection" >
+    update reader_collection
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bid != null" >
+        bid = #{bid,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.ReaderCollection" >
+    update reader_collection
+    set account = #{account,jdbcType=VARCHAR},
+      bid = #{bid,jdbcType=BIGINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByAccount" resultMap="RCAndIB" >
+    select rc.*, ib.*
+    from reader_collection rc, info_book ib
+    where account = #{account,jdbcType=VARCHAR}
+    and rc.bid = ib.id
+  </select>
+</mapper>

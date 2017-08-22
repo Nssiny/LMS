@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.InfoBookMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.InfoBook" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="isbn" property="isbn" jdbcType="CHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="translator" property="translator" jdbcType="VARCHAR" />
+    <result column="painter" property="painter" jdbcType="VARCHAR" />
+    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+    <result column="publishedIn" property="publishedin" jdbcType="DATE" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="clc" property="clc" jdbcType="CHAR" />
+    <result column="volume" property="volume" jdbcType="CHAR" />
+    <result column="languages" property="languages" jdbcType="CHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, isbn, title, author, translator, painter, publisher, publishedIn, description, clc, 
+    volume, languages, price, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from info_book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.InfoBook" >
+    insert into info_book (id, isbn, title, 
+      author, translator, painter, 
+      publisher, publishedIn, description, 
+      clc, volume, languages, price, gmt_create, gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{isbn,jdbcType=CHAR}, #{title,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{translator,jdbcType=VARCHAR}, #{painter,jdbcType=VARCHAR}, 
+      #{publisher,jdbcType=VARCHAR}, #{publishedin,jdbcType=DATE}, #{description,jdbcType=VARCHAR}, 
+      #{clc,jdbcType=CHAR}, #{volume,jdbcType=CHAR}, #{languages,jdbcType=CHAR}, #{price,jdbcType=DECIMAL}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.InfoBook" >
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into info_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="translator != null" >
+        translator,
+      </if>
+      <if test="painter != null" >
+        painter,
+      </if>
+      <if test="publisher != null" >
+        publisher,
+      </if>
+      <if test="publishedin != null" >
+        publishedIn,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="clc != null" >
+        clc,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="languages != null" >
+        languages,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=CHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="translator != null" >
+        #{translator,jdbcType=VARCHAR},
+      </if>
+      <if test="painter != null" >
+        #{painter,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="publishedin != null" >
+        #{publishedin,jdbcType=DATE},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="clc != null" >
+        #{clc,jdbcType=CHAR},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=CHAR},
+      </if>
+      <if test="languages != null" >
+        #{languages,jdbcType=CHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.InfoBook" >
+    update info_book
+    <set >
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=CHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="translator != null" >
+        translator = #{translator,jdbcType=VARCHAR},
+      </if>
+      <if test="painter != null" >
+        painter = #{painter,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="publishedin != null" >
+        publishedIn = #{publishedin,jdbcType=DATE},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="clc != null" >
+        clc = #{clc,jdbcType=CHAR},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=CHAR},
+      </if>
+      <if test="languages != null" >
+        languages = #{languages,jdbcType=CHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.InfoBook" >
+    update info_book
+    set isbn = #{isbn,jdbcType=CHAR},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      translator = #{translator,jdbcType=VARCHAR},
+      painter = #{painter,jdbcType=VARCHAR},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      publishedIn = #{publishedin,jdbcType=DATE},
+      description = #{description,jdbcType=VARCHAR},
+      clc = #{clc,jdbcType=CHAR},
+      volume = #{volume,jdbcType=CHAR},
+      languages = #{languages,jdbcType=CHAR},
+      price = #{price,jdbcType=DECIMAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+  </select>
+  <select id="selectByTitle" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+    where title like #{title,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByTitleLimit" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+    where title like #{title,jdbcType=VARCHAR} limit #{begin},#{last}
+  </select>
+  <select id="countAllByTitle" resultType="java.lang.Integer" >
+    select count(*) from info_book where title like #{title,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByFTLimit" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+    where MATCH(title, author, translator, painter, publisher, description) AGAINST(#{ft}) limit #{begin},#{last}
+  </select>
+  <select id="countAllByFT" resultType="java.lang.Integer" >
+    select 
+    count(*)
+    from info_book
+    where MATCH(title, author, translator, painter, publisher, description) AGAINST(#{ft})
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="Map">
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+    <where>
+    	<if test="title!=null and title!='' ">
+    		and title like #{title}
+    	</if>
+    	<if test="author!=null and author!='' ">
+    		and author like #{author}
+    	</if>
+    	<if test="publisher!=null and publisher!='' ">
+    		and publisher like #{publisher}
+    	</if>
+    	<if test="publishedin!=null and publishedin!='' ">
+    		and publishedIn like #{publishedin}
+    	</if>
+    	<if test="description!=null and description!= '' ">
+    		and description like #{description}
+    	</if>
+    </where>
+  </select>
+  <select id="selectBySQL" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_book
+    <if test="key!=null and key!= '' ">
+    ${key}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.ReaderCategoryMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.ReaderCategory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="max_book_borrow" property="maxBookBorrow" jdbcType="INTEGER" />
+    <result column="book_borrow_again" property="bookBorrowAgain" jdbcType="INTEGER" />
+    <result column="book_borrow_time" property="bookBorrowTime" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, max_book_borrow, book_borrow_again, book_borrow_time, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from reader_category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.ReaderCategory" >
+    insert into reader_category (id, name, max_book_borrow, 
+      book_borrow_again, book_borrow_time, gmt_create, 
+      gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{maxBookBorrow,jdbcType=INTEGER}, 
+      #{bookBorrowAgain,jdbcType=INTEGER}, #{bookBorrowTime,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.ReaderCategory" >
+    insert into reader_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="maxBookBorrow != null" >
+        max_book_borrow,
+      </if>
+      <if test="bookBorrowAgain != null" >
+        book_borrow_again,
+      </if>
+      <if test="bookBorrowTime != null" >
+        book_borrow_time,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxBookBorrow != null" >
+        #{maxBookBorrow,jdbcType=INTEGER},
+      </if>
+      <if test="bookBorrowAgain != null" >
+        #{bookBorrowAgain,jdbcType=INTEGER},
+      </if>
+      <if test="bookBorrowTime != null" >
+        #{bookBorrowTime,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.ReaderCategory" >
+    update reader_category
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxBookBorrow != null" >
+        max_book_borrow = #{maxBookBorrow,jdbcType=INTEGER},
+      </if>
+      <if test="bookBorrowAgain != null" >
+        book_borrow_again = #{bookBorrowAgain,jdbcType=INTEGER},
+      </if>
+      <if test="bookBorrowTime != null" >
+        book_borrow_time = #{bookBorrowTime,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.ReaderCategory" >
+    update reader_category
+    set name = #{name,jdbcType=VARCHAR},
+      max_book_borrow = #{maxBookBorrow,jdbcType=INTEGER},
+      book_borrow_again = #{bookBorrowAgain,jdbcType=INTEGER},
+      book_borrow_time = #{bookBorrowTime,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectBySQL" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_category
+    <if test="key!=null and key!= '' ">
+    ${key}
+    </if>
+  </select>
+</mapper>

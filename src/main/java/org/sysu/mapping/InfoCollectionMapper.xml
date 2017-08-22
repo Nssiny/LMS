@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.InfoCollectionMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.InfoCollection" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="bid" property="bid" jdbcType="BIGINT" />
+    <result column="callno" property="callno" jdbcType="VARCHAR" />
+    <result column="located" property="located" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="is_reservation" property="isReservation" jdbcType="TINYINT" />
+    <result column="is_borrowing" property="isBorrowing" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="InfoCollectionAndInfoBook" type="org.sysu.pojo.InfoCollection" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="bid" property="bid" jdbcType="BIGINT" />
+    <result column="callno" property="callno" jdbcType="VARCHAR" />
+    <result column="located" property="located" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="is_reservation" property="isReservation" jdbcType="TINYINT" />
+    <result column="is_borrowing" property="isBorrowing" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <association property="infoBook" javaType="org.sysu.pojo.InfoBook" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="isbn" property="isbn" jdbcType="CHAR" />
+	    <result column="title" property="title" jdbcType="VARCHAR" />
+	    <result column="author" property="author" jdbcType="VARCHAR" />
+	    <result column="translator" property="translator" jdbcType="VARCHAR" />
+	    <result column="painter" property="painter" jdbcType="VARCHAR" />
+	    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+	    <result column="publishedIn" property="publishedin" jdbcType="DATE" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="clc" property="clc" jdbcType="CHAR" />
+	    <result column="volume" property="volume" jdbcType="CHAR" />
+	    <result column="languages" property="languages" jdbcType="CHAR" />
+	    <result column="price" property="price" jdbcType="DECIMAL" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bar_code, bid, callno, located, type, is_reservation, is_borrowing, gmt_create, 
+    gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_collection
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from info_collection
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.InfoCollection" >
+    insert into info_collection (id, bar_code, bid, 
+      callno, located, type, 
+      is_reservation, is_borrowing, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=BIGINT}, #{barCode,jdbcType=VARCHAR}, #{bid,jdbcType=BIGINT}, 
+      #{callno,jdbcType=VARCHAR}, #{located,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{isReservation,jdbcType=TINYINT}, #{isBorrowing,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.InfoCollection" >
+    insert into info_collection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="barCode != null" >
+        bar_code,
+      </if>
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="callno != null" >
+        callno,
+      </if>
+      <if test="located != null" >
+        located,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="isReservation != null" >
+        is_reservation,
+      </if>
+      <if test="isBorrowing != null" >
+        is_borrowing,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="barCode != null" >
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bid != null" >
+        #{bid,jdbcType=BIGINT},
+      </if>
+      <if test="callno != null" >
+        #{callno,jdbcType=VARCHAR},
+      </if>
+      <if test="located != null" >
+        #{located,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="isReservation != null" >
+        #{isReservation,jdbcType=TINYINT},
+      </if>
+      <if test="isBorrowing != null" >
+        #{isBorrowing,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.InfoCollection" >
+    update info_collection
+    <set >
+      <if test="barCode != null" >
+        bar_code = #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bid != null" >
+        bid = #{bid,jdbcType=BIGINT},
+      </if>
+      <if test="callno != null" >
+        callno = #{callno,jdbcType=VARCHAR},
+      </if>
+      <if test="located != null" >
+        located = #{located,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="isReservation != null" >
+        is_reservation = #{isReservation,jdbcType=TINYINT},
+      </if>
+      <if test="isBorrowing != null" >
+        is_borrowing = #{isBorrowing,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.InfoCollection" >
+    update info_collection
+    set bar_code = #{barCode,jdbcType=VARCHAR},
+      bid = #{bid,jdbcType=BIGINT},
+      callno = #{callno,jdbcType=VARCHAR},
+      located = #{located,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      is_reservation = #{isReservation,jdbcType=TINYINT},
+      is_borrowing = #{isBorrowing,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByBid1" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_collection
+    where bid = #{bid,jdbcType=BIGINT}
+    and status = 1;
+  </select>
+  <select id="selectByBarCode" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_collection
+    where bar_code = #{barCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByLikeBarCode" resultMap="BaseResultMap" >
+    select
+	<include refid="Base_Column_List" />
+    from info_collection
+    where bar_code like #{barCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByICidFromICandIB" resultMap="InfoCollectionAndInfoBook" >
+    select ic.*, ib.*
+    from info_collection ic, info_book ib
+    where ic.id = #{id,jdbcType=BIGINT}
+    and ic.bid = ib.id
+  </select>
+  <select id="selectBySQL" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_collection
+    <if test="key!=null and key!= '' ">
+    ${key}
+    </if>
+  </select>
+</mapper>

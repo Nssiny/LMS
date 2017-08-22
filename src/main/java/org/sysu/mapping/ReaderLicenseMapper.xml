@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.ReaderLicenseMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.ReaderLicense" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="gmt_allocate" property="gmtAllocate" jdbcType="TIMESTAMP" />
+    <result column="gmt_expire" property="gmtExpire" jdbcType="TIMESTAMP" />
+    <result column="penalty_count" property="penaltyCount" jdbcType="INTEGER" />
+    <result column="borrowed" property="borrowed" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="LicenseAndCategoryMap" type="org.sysu.pojo.ReaderLicense" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="gmt_allocate" property="gmtAllocate" jdbcType="TIMESTAMP" />
+    <result column="gmt_expire" property="gmtExpire" jdbcType="TIMESTAMP" />
+    <result column="penalty_count" property="penaltyCount" jdbcType="INTEGER" />
+    <result column="borrowed" property="borrowed" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="readerCategory" javaType="org.sysu.pojo.ReaderCategory" >
+    	<id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="max_book_borrow" property="maxBookBorrow" jdbcType="INTEGER" />
+	    <result column="book_borrow_again" property="bookBorrowAgain" jdbcType="INTEGER" />
+	    <result column="book_borrow_time" property="bookBorrowTime" jdbcType="INTEGER" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, category_id, gmt_allocate, gmt_expire, penalty_count, borrowed, status, 
+    gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_license
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from reader_license
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.ReaderLicense" >
+    insert into reader_license (id, account, category_id, 
+      gmt_allocate, gmt_expire, penalty_count, 
+      borrowed, status, gmt_create, 
+      gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, 
+      #{gmtAllocate,jdbcType=TIMESTAMP}, #{gmtExpire,jdbcType=TIMESTAMP}, #{penaltyCount,jdbcType=INTEGER}, 
+      #{borrowed,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.ReaderLicense" >
+    insert into reader_license
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="gmtAllocate != null" >
+        gmt_allocate,
+      </if>
+      <if test="gmtExpire != null" >
+        gmt_expire,
+      </if>
+      <if test="penaltyCount != null" >
+        penalty_count,
+      </if>
+      <if test="borrowed != null" >
+        borrowed,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtAllocate != null" >
+        #{gmtAllocate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtExpire != null" >
+        #{gmtExpire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="penaltyCount != null" >
+        #{penaltyCount,jdbcType=INTEGER},
+      </if>
+      <if test="borrowed != null" >
+        #{borrowed,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.ReaderLicense" >
+    update reader_license
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtAllocate != null" >
+        gmt_allocate = #{gmtAllocate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtExpire != null" >
+        gmt_expire = #{gmtExpire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="penaltyCount != null" >
+        penalty_count = #{penaltyCount,jdbcType=INTEGER},
+      </if>
+      <if test="borrowed != null" >
+        borrowed = #{borrowed,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.ReaderLicense" >
+    update reader_license
+    set account = #{account,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      gmt_allocate = #{gmtAllocate,jdbcType=TIMESTAMP},
+      gmt_expire = #{gmtExpire,jdbcType=TIMESTAMP},
+      penalty_count = #{penaltyCount,jdbcType=INTEGER},
+      borrowed = #{borrowed,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByAccount" resultMap="LicenseAndCategoryMap" >
+    select reader_license.*, reader_category.* from reader_license, reader_category
+    where reader_license.category_id = reader_category.id
+    and reader_license.account = #{account,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByLikeAccount" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_license
+    where account like #{account,jdbcType=VARCHAR}
+  </select>
+</mapper>

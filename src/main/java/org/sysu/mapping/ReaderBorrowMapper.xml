@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.ReaderBorrowMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.ReaderBorrow" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_borrow" property="dateBorrow" jdbcType="TIMESTAMP" />
+    <result column="date_return" property="dateReturn" jdbcType="TIMESTAMP" />
+    <result column="date_back" property="dateBack" jdbcType="TIMESTAMP" />
+    <result column="penalty_flag" property="penaltyFlag" jdbcType="INTEGER" />
+    <result column="reborrow_count" property="reborrowCount" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="borrowANDbookANDcollection" type="org.sysu.pojo.ReaderBorrow" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_borrow" property="dateBorrow" jdbcType="TIMESTAMP" />
+    <result column="date_return" property="dateReturn" jdbcType="TIMESTAMP" />
+    <result column="date_back" property="dateBack" jdbcType="TIMESTAMP" />
+    <result column="penalty_flag" property="penaltyFlag" jdbcType="INTEGER" />
+    <result column="reborrow_count" property="reborrowCount" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="infoBook" javaType="org.sysu.pojo.InfoBook" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="isbn" property="isbn" jdbcType="CHAR" />
+	    <result column="title" property="title" jdbcType="VARCHAR" />
+	    <result column="author" property="author" jdbcType="VARCHAR" />
+	    <result column="translator" property="translator" jdbcType="VARCHAR" />
+	    <result column="painter" property="painter" jdbcType="VARCHAR" />
+	    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+	    <result column="publishedIn" property="publishedin" jdbcType="DATE" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="clc" property="clc" jdbcType="CHAR" />
+	    <result column="volume" property="volume" jdbcType="CHAR" />
+	    <result column="languages" property="languages" jdbcType="CHAR" />
+	    <result column="price" property="price" jdbcType="DECIMAL" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+    <association property="infoCollection" javaType="org.sysu.pojo.InfoCollection" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+	    <result column="bid" property="bid" jdbcType="BIGINT" />
+	    <result column="callno" property="callno" jdbcType="VARCHAR" />
+	    <result column="located" property="located" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="CHAR" />
+	    <result column="is_reservation" property="isReservation" jdbcType="TINYINT" />
+	    <result column="is_borrowing" property="isBorrowing" jdbcType="TINYINT" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+	    <result column="status" property="status" jdbcType="TINYINT" />
+    </association>
+  </resultMap>
+  <resultMap id="borrowANDcollection" type="org.sysu.pojo.ReaderBorrow" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_borrow" property="dateBorrow" jdbcType="TIMESTAMP" />
+    <result column="date_return" property="dateReturn" jdbcType="TIMESTAMP" />
+    <result column="date_back" property="dateBack" jdbcType="TIMESTAMP" />
+    <result column="penalty_flag" property="penaltyFlag" jdbcType="INTEGER" />
+    <result column="reborrow_count" property="reborrowCount" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="infoCollection" javaType="org.sysu.pojo.InfoCollection" >
+	    <id column="icid" property="id" jdbcType="BIGINT" />
+	    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+	    <result column="bid" property="bid" jdbcType="BIGINT" />
+	    <result column="callno" property="callno" jdbcType="VARCHAR" />
+	    <result column="located" property="located" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="CHAR" />
+	    <result column="is_reservation" property="isReservation" jdbcType="TINYINT" />
+	    <result column="is_borrowing" property="isBorrowing" jdbcType="TINYINT" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+	    <result column="status" property="status" jdbcType="TINYINT" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bar_code, account, date_borrow, date_return, date_back, penalty_flag, reborrow_count, 
+    gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_borrow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from reader_borrow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.ReaderBorrow" >
+    insert into reader_borrow (id, bar_code, account, 
+      date_borrow, date_return, date_back, 
+      penalty_flag, reborrow_count, gmt_create, 
+      gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{barCode,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{dateBorrow,jdbcType=TIMESTAMP}, #{dateReturn,jdbcType=TIMESTAMP}, #{dateBack,jdbcType=TIMESTAMP}, 
+      #{penaltyFlag,jdbcType=INTEGER}, #{reborrowCount,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.ReaderBorrow" >
+    insert into reader_borrow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="barCode != null" >
+        bar_code,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="dateBorrow != null" >
+        date_borrow,
+      </if>
+      <if test="dateReturn != null" >
+        date_return,
+      </if>
+      <if test="dateBack != null" >
+        date_back,
+      </if>
+      <if test="penaltyFlag != null" >
+        penalty_flag,
+      </if>
+      <if test="reborrowCount != null" >
+        reborrow_count,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="barCode != null" >
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBorrow != null" >
+        #{dateBorrow,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateReturn != null" >
+        #{dateReturn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateBack != null" >
+        #{dateBack,jdbcType=TIMESTAMP},
+      </if>
+      <if test="penaltyFlag != null" >
+        #{penaltyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="reborrowCount != null" >
+        #{reborrowCount,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.ReaderBorrow" >
+    update reader_borrow
+    <set >
+      <if test="barCode != null" >
+        bar_code = #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBorrow != null" >
+        date_borrow = #{dateBorrow,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateReturn != null" >
+        date_return = #{dateReturn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateBack != null" >
+        date_back = #{dateBack,jdbcType=TIMESTAMP},
+      </if>
+      <if test="penaltyFlag != null" >
+        penalty_flag = #{penaltyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="reborrowCount != null" >
+        reborrow_count = #{reborrowCount,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.ReaderBorrow" >
+    update reader_borrow
+    set bar_code = #{barCode,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      date_borrow = #{dateBorrow,jdbcType=TIMESTAMP},
+      date_return = #{dateReturn,jdbcType=TIMESTAMP},
+      date_back = #{dateBack,jdbcType=TIMESTAMP},
+      penalty_flag = #{penaltyFlag,jdbcType=INTEGER},
+      reborrow_count = #{reborrowCount,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByAccountBack0" resultMap="borrowANDbookANDcollection" >
+    select rb.*, ic.*, ib.* from reader_borrow rb, info_collection ic, info_book ib
+    where rb.account = #{account,jdbcType=VARCHAR}
+    and rb.bar_code = ic.bar_code
+    and ic.bid = ib.id
+    and rb.date_back is null
+  </select>
+  <select id="selectByAccountBackNot0" resultMap="borrowANDbookANDcollection" >
+    select rb.*, ic.*, ib.* from reader_borrow rb, info_collection ic, info_book ib
+    where rb.account = #{account,jdbcType=VARCHAR}
+    and rb.bar_code = ic.bar_code
+    and ic.bid = ib.id
+    and rb.date_back is not null
+  </select>
+  <select id="selectByPrimaryKeyFromBBC" resultMap="borrowANDbookANDcollection" >
+    select rb.*, ic.*, ib.* from reader_borrow rb, info_collection ic, info_book ib
+    where rb.id = #{id,jdbcType=BIGINT}
+    and rb.bar_code = ic.bar_code
+    and ic.bid = ib.id
+  </select>
+  <!-- 预约选择 -->
+  <select id="selectByBarCode1Back0" resultMap="borrowANDcollection" >
+    select
+		rb.*,
+		ic.id "icid",
+		ic.bar_code, 
+		ic.bid, 
+		ic.callno, 
+		ic.located, 
+		ic.type, 
+		ic.is_reservation, 
+		ic.is_borrowing
+	from reader_borrow rb, info_collection ic
+    where rb.bar_code = #{barCode,jdbcType=VARCHAR}
+    and rb.bar_code = ic.bar_code
+    and rb.date_back is null
+    and ic.status = 1
+  </select>
+  <select id="selectByRbid1" resultMap="borrowANDcollection" >
+    select
+		rb.*,
+		ic.id "icid",
+		ic.bar_code, 
+		ic.bid, 
+		ic.callno, 
+		ic.located, 
+		ic.type, 
+		ic.is_reservation, 
+		ic.is_borrowing
+	from reader_borrow rb, info_collection ic
+    where rb.id = #{rbid}
+    and rb.bar_code = ic.bar_code
+    and ic.status = 1
+  </select>
+  <select id="selectByLikeBarCode1Back0" resultMap="borrowANDcollection" >
+    select
+		rb.*,
+		ic.id "icid",
+		ic.bar_code, 
+		ic.bid, 
+		ic.callno, 
+		ic.located, 
+		ic.type, 
+		ic.is_reservation, 
+		ic.is_borrowing
+	from reader_borrow rb, info_collection ic
+    where rb.bar_code like #{barCode,jdbcType=VARCHAR}
+    and rb.bar_code = ic.bar_code
+    and rb.date_back is null
+    and ic.status = 1
+  </select>
+  <select id="selectByLikeAccount" resultMap="BaseResultMap" >
+    select 
+    DISTINCT account
+    from reader_borrow
+    where account like #{account,jdbcType=VARCHAR}
+    and penalty_flag = #{penaltyFlag,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySQL" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader_borrow
+    <if test="key!=null and key!= '' ">
+    ${key}
+    </if>
+  </select>
+</mapper>

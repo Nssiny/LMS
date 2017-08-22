@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro Configuration</description>
+
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<!-- 項目自定义的Realm -->
+	<bean id="shiroDbRealm" class="org.sysu.realm.ShiroDbRealm">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<!-- Shiro Filter -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">  
+        <property name="securityManager" ref="securityManager" />  
+        <property name="loginUrl" value="/login.do" />  
+        <property name="successUrl" value="/index.jsp" />  
+        <property name="unauthorizedUrl" value="/404.jsp" />  
+        <property name="filterChainDefinitions">  
+            <value>
+            	/adminIndex = authc, perms[admin:*]
+            	/jqGridData = authc, perms[Operation:*]
+            	/ReaderManagement = authc, perms[ReaderManagement:*]
+            	/ReaderManagement/rmShow.do = authc, perms[ReaderManagement:*]
+            	/ReaderManagement/rmidForm.do = authc, perms[ReaderManagement:edit]
+            	/ReaderCategoryManagement = authc, perms[ReaderCategoryManagement:*]
+            	/InfoBookManagement = authc, perms[InfoBookManagement:*]
+            	/infoBookChange = authc, perms[InfoBookManagement:edit]
+            	/InfoCollectionManagement = authc, perms[InfoCollectionManagement:*]
+            	/infoCollectionChange = authc, perms[InfoCollectionManagement:edit]
+            	/userChange = authc, perms[UserManagement:edit]
+            	/roleChange = authc, perms[RoleManagement:edit]
+            	/permissionChange = authc, perms[PermissionManagement:edit]
+            	/BorrowManagement = authc, perms[BorrowManagement:*]
+            	/readerBorrow.showAccount = authc, perms[BorrowManagement:*]
+            	/readerBorrow.showBarCode = authc, perms[BorrowManagement:*]
+            	/saccountSelect = authc, perms[BorrowManagement:*]
+            	/sbarCodeSelect = authc, perms[BorrowManagement:*]
+            	/readerBorrow.do = authc, perms[BorrowManagement:edit]
+            	/readerCategoryChange = authc, perms[ReaderCategoryManagement:edit]
+            	/ReturnManagement = authc, perms[ReturnManagement:*]
+            	/returnBorrow.showBarCode = authc, perms[ReturnManagement:*]
+            	/readerReturn.do = authc, perms[ReturnManagement:edit]
+            	/ReturnErrorManagement = authc, perms[ReturnErrorManagement:*]
+            	/returnBorrowError.showAccount = authc, perms[ReturnErrorManagement:*]
+            	/saccountSelectShowBook = authc, perms[ReturnErrorManagement:*]
+            	/readerReturnError.do = authc, perms[ReturnErrorManagement:edit]
+            	/InfoPenaltyManagement = authc, perms[InfoPenaltyManagement:*]
+            	/infoPenalty.showAccount = authc, perms[InfoPenaltyManagement:*]
+            	/saccountSelectShowPenalty = authc, perms[InfoPenaltyManagement:*]
+            	/infoPenalty.do = authc, perms[InfoPenaltyManagement:edit]
+            	/ReservationManagement = authc, perms[ReservationManagement:*]
+            	/acancelReservation.do = authc, perms[ReservationManagement:edit]
+            	/addInfoCollection.do = authc, perms[InfoBookManagement:edit]
+            	/LuceneManagement = authc, perms[LuceneManagement:*]
+            	/createAllIndex.do = authc, perms[LuceneManagement:edit]
+            	/NewAccountManagement = authc, perms[NewAccountManagement:*]
+            	/createAccounts.do = authc, perms[NewAccountManagement:eidt]
+            	/RoleManagement = authc, perms[RoleManagement:*]
+            	/role/treedata = authc, perms[RoleManagement:*]
+            	/userRole/change = authc, perms[RoleManagement:edit]
+            	/PermissionManagement = authc, perms[PermissionManagement:*]
+            	/permission/treedata = authc, perms[PermissionManagement:*]
+            	/rolePermission/change = authc, perms[PermissionManagement:edit]
+            	/UserManagement = authc, perms[UserManagement:*]
+            	/personal = authc, perms[reader:*]
+            	/personalCurrentBorrowedPage.do = authc, perms[reader:*]
+            	/personalHistoryPage.do = authc, perms[reader:*]
+            	/rreborrow.do = authc, perms[reader:*]
+            	/rcancelReservation.do = authc, perms[reader:*]
+            	/resetPassword.do = authc
+            	/addCollection.do = authc, perms[reader:*]
+            	/myCollection = authc, perms[reader:*]
+            	/delCollection.do = authc, perms[reader:*]
+            	/q.do = anon
+            	/ftSearch.do = anon
+            	/bdetail.do = anon
+            	/rreservation.do = authc, perms[reader:*]
+            	/login.do = anon
+            	/checkLogin.do = anon
+            	/logout = anon
+            	/chklogin = anon
+            	/bootstrap/** = anon
+            	/css/** = anon
+            	/font-awesome/** = anon
+            	/img/** = anon
+            	/js/** = anon
+            	/public/** = anon
+            	/ = anon
+                /** = authc
+            </value>  
+        </property>  
+    </bean>
+
+	<!-- 用户授权信息Cache -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- AOP式方法级权限检查 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>

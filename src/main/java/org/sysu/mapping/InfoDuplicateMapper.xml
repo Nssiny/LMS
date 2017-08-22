@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.InfoDuplicateMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.InfoDuplicate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bid" property="bid" jdbcType="BIGINT" />
+    <result column="num_duplicate" property="numDuplicate" jdbcType="INTEGER" />
+    <result column="num_borrow" property="numBorrow" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bid, num_duplicate, num_borrow, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_duplicate
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from info_duplicate
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.InfoDuplicate" >
+    insert into info_duplicate (id, bid, num_duplicate, 
+      num_borrow, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=BIGINT}, #{bid,jdbcType=BIGINT}, #{numDuplicate,jdbcType=INTEGER}, 
+      #{numBorrow,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.InfoDuplicate" >
+    insert into info_duplicate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="numDuplicate != null" >
+        num_duplicate,
+      </if>
+      <if test="numBorrow != null" >
+        num_borrow,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bid != null" >
+        #{bid,jdbcType=BIGINT},
+      </if>
+      <if test="numDuplicate != null" >
+        #{numDuplicate,jdbcType=INTEGER},
+      </if>
+      <if test="numBorrow != null" >
+        #{numBorrow,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.InfoDuplicate" >
+    update info_duplicate
+    <set >
+      <if test="bid != null" >
+        bid = #{bid,jdbcType=BIGINT},
+      </if>
+      <if test="numDuplicate != null" >
+        num_duplicate = #{numDuplicate,jdbcType=INTEGER},
+      </if>
+      <if test="numBorrow != null" >
+        num_borrow = #{numBorrow,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.InfoDuplicate" >
+    update info_duplicate
+    set bid = #{bid,jdbcType=BIGINT},
+      num_duplicate = #{numDuplicate,jdbcType=INTEGER},
+      num_borrow = #{numBorrow,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByBid" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_duplicate
+    where bid = #{bid,jdbcType=BIGINT}
+  </select>
+</mapper>

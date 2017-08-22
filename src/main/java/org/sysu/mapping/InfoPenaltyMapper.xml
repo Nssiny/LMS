@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.sysu.dao.InfoPenaltyMapper" >
+  <resultMap id="BaseResultMap" type="org.sysu.pojo.InfoPenalty" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="rbid" property="rbid" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_penalty" property="datePenalty" jdbcType="TIMESTAMP" />
+    <result column="price_penalty" property="pricePenalty" jdbcType="INTEGER" />
+    <result column="date_pay" property="datePay" jdbcType="TIMESTAMP" />
+    <result column="price_pay" property="pricePay" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="penaltyANDborrowANDbookANDcollection" type="org.sysu.pojo.InfoPenalty" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="rbid" property="rbid" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="date_penalty" property="datePenalty" jdbcType="TIMESTAMP" />
+    <result column="price_penalty" property="pricePenalty" jdbcType="INTEGER" />
+    <result column="date_pay" property="datePay" jdbcType="TIMESTAMP" />
+    <result column="price_pay" property="pricePay" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="readerBorrow" javaType="org.sysu.pojo.ReaderBorrow" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+	    <result column="account" property="account" jdbcType="VARCHAR" />
+	    <result column="date_borrow" property="dateBorrow" jdbcType="TIMESTAMP" />
+	    <result column="date_return" property="dateReturn" jdbcType="TIMESTAMP" />
+	    <result column="date_back" property="dateBack" jdbcType="TIMESTAMP" />
+	    <result column="penalty_flag" property="penaltyFlag" jdbcType="INTEGER" />
+	    <result column="reborrow_count" property="reborrowCount" jdbcType="INTEGER" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+    <association property="infoBook" javaType="org.sysu.pojo.InfoBook" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="isbn" property="isbn" jdbcType="CHAR" />
+	    <result column="title" property="title" jdbcType="VARCHAR" />
+	    <result column="author" property="author" jdbcType="VARCHAR" />
+	    <result column="translator" property="translator" jdbcType="VARCHAR" />
+	    <result column="painter" property="painter" jdbcType="VARCHAR" />
+	    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+	    <result column="publishedIn" property="publishedin" jdbcType="DATE" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="clc" property="clc" jdbcType="CHAR" />
+	    <result column="volume" property="volume" jdbcType="CHAR" />
+	    <result column="languages" property="languages" jdbcType="CHAR" />
+	    <result column="price" property="price" jdbcType="DECIMAL" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+    <association property="infoCollection" javaType="org.sysu.pojo.InfoCollection" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+	    <result column="bid" property="bid" jdbcType="BIGINT" />
+	    <result column="callno" property="callno" jdbcType="VARCHAR" />
+	    <result column="located" property="located" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="CHAR" />
+	    <result column="is_reservation" property="isReservation" jdbcType="TINYINT" />
+	    <result column="is_borrowing" property="isBorrowing" jdbcType="TINYINT" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rbid, account, date_penalty, price_penalty, date_pay, price_pay, gmt_create, 
+    gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_penalty
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from info_penalty
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.sysu.pojo.InfoPenalty" >
+    insert into info_penalty (id, rbid, account, 
+      date_penalty, price_penalty, date_pay, 
+      price_pay, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=BIGINT}, #{rbid,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, 
+      #{datePenalty,jdbcType=TIMESTAMP}, #{pricePenalty,jdbcType=INTEGER}, #{datePay,jdbcType=TIMESTAMP}, 
+      #{pricePay,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.sysu.pojo.InfoPenalty" >
+    insert into info_penalty
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rbid != null" >
+        rbid,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="datePenalty != null" >
+        date_penalty,
+      </if>
+      <if test="pricePenalty != null" >
+        price_penalty,
+      </if>
+      <if test="datePay != null" >
+        date_pay,
+      </if>
+      <if test="pricePay != null" >
+        price_pay,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="rbid != null" >
+        #{rbid,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="datePenalty != null" >
+        #{datePenalty,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pricePenalty != null" >
+        #{pricePenalty,jdbcType=INTEGER},
+      </if>
+      <if test="datePay != null" >
+        #{datePay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pricePay != null" >
+        #{pricePay,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sysu.pojo.InfoPenalty" >
+    update info_penalty
+    <set >
+      <if test="rbid != null" >
+        rbid = #{rbid,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="datePenalty != null" >
+        date_penalty = #{datePenalty,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pricePenalty != null" >
+        price_penalty = #{pricePenalty,jdbcType=INTEGER},
+      </if>
+      <if test="datePay != null" >
+        date_pay = #{datePay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pricePay != null" >
+        price_pay = #{pricePay,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sysu.pojo.InfoPenalty" >
+    update info_penalty
+    set rbid = #{rbid,jdbcType=BIGINT},
+      account = #{account,jdbcType=VARCHAR},
+      date_penalty = #{datePenalty,jdbcType=TIMESTAMP},
+      price_penalty = #{pricePenalty,jdbcType=INTEGER},
+      date_pay = #{datePay,jdbcType=TIMESTAMP},
+      price_pay = #{pricePay,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByAccount0" resultMap="penaltyANDborrowANDbookANDcollection" >
+    select ip.*, rb.*, ic.*, ib.title from info_penalty ip, reader_borrow rb, info_book ib, info_collection ic
+    where ip.account = #{account,jdbcType=VARCHAR}
+    and ip.price_pay is null
+    and ip.rbid = rb.id
+    and rb.bar_code = ic.bar_code
+    and ic.bid = ib.id
+  </select>
+  <select id="selectByAccount1" resultMap="penaltyANDborrowANDbookANDcollection" >
+    select ip.*, rb.*, ic.*, ib.title from info_penalty ip, reader_borrow rb, info_book ib, info_collection ic
+    where ip.account = #{account,jdbcType=VARCHAR}
+    and ip.price_pay is not null
+    and ip.rbid = rb.id
+    and rb.bar_code = ic.bar_code
+    and ic.bid = ib.id
+  </select>
+  <select id="selectByRbid" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_penalty
+    where rbid = #{rbid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByLikeAccount" resultMap="BaseResultMap" >
+    select 
+    DISTINCT account
+    from info_penalty
+    where account like #{account,jdbcType=VARCHAR}
+    and price_pay is not null
+  </select>
+  <select id="selectBySQL" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from info_penalty
+    <if test="key!=null and key!= '' ">
+    ${key}
+    </if>
+  </select>
+</mapper>
